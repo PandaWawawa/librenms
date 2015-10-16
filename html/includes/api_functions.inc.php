@@ -988,7 +988,7 @@ function get_availabilities() {
     $code    = 200;
     //$sql     = '';
 
-    $availabilities  = dbQuery("SELECT device_id,loss FROM device_perf ORDER BY timestamp");
+    $availabilities  = dbFetchRows("SELECT device_id,loss FROM device_perf ORDER BY timestamp");
     if(!$availabilities) {
         $status = 'error';
         $code = 500;
