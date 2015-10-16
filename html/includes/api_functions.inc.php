@@ -784,7 +784,7 @@ function ack_alert() {
         $status = 'ok';
         $code   = 200;
         if (dbUpdate(array('state' => 2), 'alerts', '`id` = ? LIMIT 1', array($alert_id))) {
-            $message = 'Alert has been ackgnowledged';
+            $message = 'Alert has been acknowledged';
         }
         else {
             $message = 'No alert by that ID';
@@ -976,3 +976,36 @@ function list_bills() {
     $app->response->headers->set('Content-Type', 'application/json');
     echo _json_encode($output);
 }
+
+function get_availabilities() {
+
+    global $config;
+    $app  = \Slim\Slim::getInstance();
+    //$data = json_decode(file_get_contents('php://input'), true);
+
+    $status  = 'ok';
+    $message = '';
+    $code    = 200;
+    //$sql     = '';
+
+    $availabilities  = dbQuery("SELECT loss,device_id FROM device_perf GROUP BY device_id ORDER BY timestamp");
+    if(!$availabilities) {
+        $status = 'error';
+        $code = 500;
+        $count = 0;
+    }else{
+        $count = count($availabilities);
+    }
+
+    $output = array(
+        'status' => $status,
+        'message' => $message,
+        'count' => count($availabilities),
+        'availabilities' => $availabilities
+    );
+
+    $app->response->setStatus($code);
+    $app->response->headers->set('Content-Type', 'application/json');
+    echo _json_encode($output);
+}
+

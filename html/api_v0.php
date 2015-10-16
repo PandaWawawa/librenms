@@ -111,9 +111,18 @@ $app->group(
                     '/inventory',
                     function () use ($app) {
                         $app->get('/:hostname', 'authToken', 'get_inventory')->name('get_inventory');
+                        $app->get('/availabilities', 'authToken', 'get_availabilities')->name('get_availabilities');
                     }
                 );
                 // End Inventory
+
+                // Availabilities
+                $app->group(
+                    '/availability',
+                    function () use ($app) {
+                        $app->get('/', 'authToken', 'get_availabilities')->name('get_availabilities');
+                    }
+                );
             }
         );
         $app->get('/v0', 'authToken', 'show_endpoints');
