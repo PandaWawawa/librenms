@@ -988,7 +988,7 @@ function get_availabilities() {
     $code    = 200;
     //$sql     = '';
 
-    $availabilities  = dbQuery("SELECT loss,device_id FROM device_perf GROUP BY device_id ORDER BY timestamp");
+    $availabilities  = dbQuery("SELECT loss,device_id FROM device_perf GROUP BY device_id");
     if(!$availabilities) {
         $status = 'error';
         $code = 500;
