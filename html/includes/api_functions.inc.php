@@ -1019,8 +1019,8 @@ function get_availabilities_last_day(){
     $minDate = new DateTime('-1 day');
     $maxDate = new DateTime();
 
-    $availabilities  = dbFetchRows("SELECT device_id,AVG(loss) FROM device_perf WHERE timestamp BETWEEN :minDate AND :maxDate GROUP BY device_id ORDER BY timestamp",
-        array('minDate' => $minDate, 'maxDate' => $maxDate));
+    $availabilities  = dbFetchRows("SELECT device_id,AVG(loss) FROM device_perf WHERE timestamp BETWEEN ? AND ? GROUP BY device_id ORDER BY timestamp",
+        array($minDate,$maxDate));
     if(!$availabilities) {
         $status = 'error';
         $code = 500;
