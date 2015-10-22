@@ -121,6 +121,7 @@ $app->group(
                     '/availability',
                     function () use ($app) {
                         $app->get('/', 'authToken', 'get_availabilities')->name('get_availabilities');
+                        $app->get('/last-day/', 'authToken', 'get_availabilities_last_day')->name('get_availabilities_last_day');
                     }
                 );
             }

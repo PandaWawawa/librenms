@@ -1008,3 +1008,33 @@ function get_availabilities() {
     echo _json_encode($output);
 }
 
+function get_availabilities_last_day(){
+
+    global $config;
+    $app  = \Slim\Slim::getInstance();
+    $status  = 'ok';
+    $message = '';
+    $code    = 200;
+
+    $minDate = new DateTime('-1 day');
+    $maxDate = new DateTime();
+
+    $availabilities  = dbFetchRows("SELECT device_id,AVG(loss) FROM device_perf WHERE timestamp BETWEEN :minDate AND :maxDate GROUP BY device_id ORDER BY timestamp",
+        array('minDate' => $minDate, 'maxDate' => $maxDate));
+    if(!$availabilities) {
+        $status = 'error';
+        $code = 500;
+        $count = 0;
+    }
+
+    $output = array(
+        'status' => $status,
+        'message' => $message,
+        'availabilities' => $availabilities
+    );
+
+    $app->response->setStatus($code);
+    $app->response->headers->set('Content-Type', 'application/json');
+    echo _json_encode($output);
+}
+
